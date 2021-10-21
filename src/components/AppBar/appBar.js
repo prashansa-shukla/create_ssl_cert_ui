@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 
 export default function MyAppBar() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, marginBottom: "40px" }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton

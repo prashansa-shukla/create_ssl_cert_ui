@@ -7,18 +7,23 @@ import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import { withStyles } from "@mui/styles";
-import { blue } from "@mui/material/colors";
+import { FormHelperText } from "@mui/material";
 
 import SearchResultScreen from "../SearchResultScreen/SearchResultScreen";
 
 export const MainAppStyles = (theme) => ({
-  box: {
-    isplay: "flex",
-    p: 1,
+  root: {
+    display: "flex",
+    flexDirection: "column",
     bgcolor: "background.paper",
-    width: "80%",
     margin: "10px",
-    justifyContent: "center",
+    alignItems: "center",
+  },
+  searchArea: {
+    width: "80%",
+  },
+  helperText: {
+    marginLeft: "10px",
   },
 });
 
@@ -29,6 +34,7 @@ class MainApp extends Component {
     this.state = {
       isacNumber: "",
       searchedApps: null,
+      error: null,
     };
   }
 
@@ -44,23 +50,34 @@ class MainApp extends Component {
     event.preventDefault();
   };
 
-  searchApps = async () => {
+  searchApps = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (this.state.isacNumber === "") {
+      this.setState({ error: "ISAC Number can't be empty" });
+      return null;
+    } else {
+      this.setState({ error: "" });
+    }
     // API call.....using await
 
     //dummy result
     const searchedApps = {
-      id: 1,
-      appName: "Chat Bot",
-      linkedApps: [
-        {
-          id: 111,
-          name: "Test 1",
-        },
-        {
-          id: 222,
-          name: "Test 2",
-        },
-      ],
+      isacComponent: {
+        isaciId: 1,
+        appName: "Chat Bot",
+        linkedApps: [
+          {
+            isaciId: 111,
+            appName: "Test 1",
+          },
+          {
+            isaciId: 222,
+            appName: "Test 2",
+          },
+        ],
+      },
     };
 
     this.setState({ searchedApps });
@@ -70,39 +87,47 @@ class MainApp extends Component {
     const { classes } = this.props;
 
     return (
-      <Box className={classes.box}>
-        <FormControl
-          sx={{ m: 1, width: "80%", paddingLeft: "-15px" }}
-          variant="standard"
-        >
-          <InputLabel htmlFor="isacNumber">ISAC Number</InputLabel>
-          <OutlinedInput
-            variant="outlined"
-            name="isacNumber"
-            onChange={this.handleInputChange}
-            label="ISAC Number"
-            id="isac-number"
-            defaultValue={this.state.isacNumber}
-            size="medium"
-            required={true}
-            type="String"
-            fullWidth={true}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={this.searchApps}
-                  sx={{ p: "10px" }}
-                  aria-label="search"
-                >
-                  <SearchIcon />
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
+      <Box className={classes.root}>
+        <div className={classes.searchArea}>
+          <form onSubmit={this.searchApps}>
+            <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
+              <InputLabel sx={{ marginLeft: "10px" }} htmlFor="isacNumber">
+                ISAC Number
+              </InputLabel>
+              <OutlinedInput
+                variant="outlined"
+                name="isacNumber"
+                onChange={this.handleInputChange}
+                label="ISAC Number"
+                id="isac-number"
+                defaultValue={this.state.isacNumber}
+                size="medium"
+                //required={true}
+                type="String"
+                fullWidth={true}
+                error={this.state.error}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={this.searchApps}
+                      sx={{ p: "10px" }}
+                      aria-label="search"
+                    >
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+            <FormHelperText error className={classes.helperText}>
+              {this.state.error}
+            </FormHelperText>
+          </form>
+        </div>
 
         {this.state.searchedApps &&
-        this.state.searchedApps.linkedApps?.length > 0 ? (
+        this.state.searchedApps.isacComponent &&
+        this.state.searchedApps.isacComponent.linkedApps?.length > 0 ? (
           <SearchResultScreen searchedApps={this.state.searchedApps} />
         ) : null}
       </Box>

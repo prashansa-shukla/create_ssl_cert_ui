@@ -1,11 +1,14 @@
 import AppRoutes from "./routers/index";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
 import "./App.css";
 
 function App() {
+  const theme = createTheme();
   return (
-    <div className="App">
+    <ThemeProvider theme={theme}>
       <AppRoutes />
-    </div>
+    </ThemeProvider>
   );
 }
 
