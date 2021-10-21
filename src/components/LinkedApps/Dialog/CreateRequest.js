@@ -18,6 +18,7 @@ import Slide from "@mui/material/Slide";
 
 import { makeStyles } from "@mui/styles";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { Link } from "react-router-dom";
 import { Box } from "@mui/system";
 
 const useStyles = makeStyles(() => ({
@@ -60,7 +61,7 @@ const CreateRequest = (props) => {
           </Button>
         </Toolbar>
       </AppBar>
-      {props.abc ? (
+      {!props.abc ? (
         <Box
           sx={{
             display: "flex",
@@ -71,7 +72,7 @@ const CreateRequest = (props) => {
           }}
         >
           <CheckCircleIcon /> Request Submitted Succesfully!! If you wish to
-          proceed further click <a href="#">here</a>
+          proceed further click <Link to="/extra">here</Link>
         </Box>
       ) : (
         <h1> not yet true</h1>
