@@ -17,6 +17,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 
 import { makeStyles } from "@mui/styles";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { Link } from "react-router-dom";
+import { Box } from "@mui/system";
 
 const useStyles = makeStyles(() => ({
   dialogPaper: {
@@ -58,18 +61,22 @@ const CreateRequest = (props) => {
           </Button>
         </Toolbar>
       </AppBar>
-      <List>
-        <ListItem button>
-          <ListItemText primary="Phone ringtone" secondary="Titania" />
-        </ListItem>
-        <Divider />
-        <ListItem button>
-          <ListItemText
-            primary="Default notification ringtone"
-            secondary="Tethys"
-          />
-        </ListItem>
-      </List>
+      {!props.abc ? (
+        <Box
+          sx={{
+            display: "flex",
+            p: 1,
+            bgcolor: "#4BB543",
+            border: "solid 1px black",
+            borderRadius: "20px",
+          }}
+        >
+          <CheckCircleIcon /> Request Submitted Succesfully!! If you wish to
+          proceed further click <Link to="/extra">here</Link>
+        </Box>
+      ) : (
+        <h1> not yet true</h1>
+      )}
     </Dialog>
   );
 };

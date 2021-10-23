@@ -6,10 +6,22 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import CreateRequest from "./Dialog/CreateRequest";
-export const styles = (theme) => ({});
+import Avatar from "@mui/material/Avatar";
+import { blue } from "@mui/material/colors";
+
+import LinkIcon from "@mui/icons-material/Link";
+
+export const styles = () => ({
+  linkedAppCard: {
+    border: "none",
+    borderRadius: "2%",
+    width: "80%",
+    margin: "10px",
+  },
+});
 
 const LinkedApps = (props) => {
-  const { classes, data } = props;
+  const { classes, data, searchResult } = props;
 
   const [open, setOpen] = React.useState(false);
 
@@ -28,15 +40,20 @@ const LinkedApps = (props) => {
 
   return (
     <Fragment>
-      <Card className={classes.row} style={{ marginBottom: "15px" }}>
+      <Card className={classes.linkedAppCard}>
         <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+              <LinkIcon />
+            </Avatar>
+          }
           action={
             <IconButton aria-label="settings" onClick={() => handleClick(data)}>
               <CardMembershipIcon />
             </IconButton>
           }
-          title={data.name}
-          subheader=""
+          title={data.appName}
+          subheader={"ISAC ID: " + data.isacId}
         />
       </Card>
       {open ? <CreateRequest open={open} handleClose={handleClose} /> : null}
